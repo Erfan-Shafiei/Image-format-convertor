@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تبدیل فرمت لحظه ای تصاویر</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+
+<body>
+    <div class="bg-anim">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+        <div class="grain"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <main class="container">
+        <header class="hero glass">
+            <h1>مبدل گروهی فرمت تصویر</h1>
+            <p>چندین عکس را با <b>Drag & Drop</b> رها کن، فرمت خروجی را انتخاب کن و با یک کلیک همه را دانلود کن.</p>
+        </header>
+
+        <section class="controls glass">
+            <div class="row">
+                <label>فرمت خروجی</label>
+                <div class="btn-group" id="formatGroup">
+                    <button class="chip active" data-format="image/jpeg">JPG</button>
+                    <button class="chip" data-format="image/png">PNG</button>
+                    <button class="chip" data-format="image/webp">WEBP</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="zipName">نام فایل خروجی</label>
+                <input type="text" id="zipName" placeholder="نام فایل خروجی مد نظر را وارد کنید">
+            </div>
+
+            <div class="row">
+                <label for="quality">کیفیت (برای JPG/WEBP)</label>
+                <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.8" />
+                <span id="qualityVal">80%</span>
+            </div>
+
+            <div class="row grid2">
+                <div class="sub">
+                    <label for="resizeWidth">تغییر سایز (اختیاری)</label>
+                    <div class="resize">
+                        <input type="number" id="resizeWidth" placeholder="عرض (px)" min="1" />
+                        <span class="x">×</span>
+                        <input type="number" id="resizeHeight" placeholder="ارتفاع (px)" min="1" />
+                    </div>
+                    <label class="inline">
+                        <input type="checkbox" id="keepAspect" checked />
+                        حفظ نسبت تصویر
+                    </label>
+                </div>
+                <div class="sub">
+                    <label for="maxDim">یا حداکثر ضلع</label>
+                    <input type="number" id="maxDim" placeholder="مثلاً 2048" min="1" />
+                    <small>اگر تنظیم شود، بزرگترین ضلع به این مقدار محدود می‌شود.</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="dropzone glass" id="dropzone">
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            <div class="dz-inner">
+                <div class="dz-icon">⬆️</div>
+                <h3>فایل‌ها را اینجا رها کنید</h3>
+                <p>یا <button id="browseBtn" class="primary">انتخاب فایل</button></p>
+                <small>فرمت‌های رایج پشتیبانی می‌شوند: JPG, PNG, WebP, BMP, GIF*</small>
+            </div>
+        </section>
+
+        <section class="toolbar glass">
+            <button id="convertAll" class="primary">تبدیل همه</button>
+            <button id="downloadAll" class="secondary" disabled>دانلود همه (ZIP)</button>
+            <div class="progress-wrap" id="progressWrap" hidden>
+                <div class="progress" id="progressBar" style="width:0%"></div>
+            </div>
+        </section>
+
+        <section class="grid glass" id="previewGrid">
+            <!-- کارت های عکس های آپلود شده اینجا میاد -->
+        </section>
+
+        <footer class="footer glass">
+            <p>این وبسایت توسط <a href="https://eko2.ir" target="_blank">عرفان شفیعی</a>  توسعه داده شده و حق مالکیت آن محفوظ است. برای حمایت مالی روی <a href="https://reymit.ir/eko2.ir">این لینک</a>  کلیک کنید</p>
+        </footer>
+    </main>
+
+    <template id="cardTemplate">
+        <div class="card">
+            <div class="thumb-wrap">
+                <img class="thumb" alt="preview" />
+            </div>
+            <div class="meta">
+                <div class="name" title=""></div>
+                <div class="dims"></div>
+                <div class="size"></div>
+            </div>
+            <div class="actions">
+                <button class="mini convert">تبدیل</button>
+                <a class="mini download" download>دانلود</a>
+                <span class="status idle">آماده</span>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
